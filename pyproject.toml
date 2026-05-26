@@ -28,6 +28,9 @@ gpu = [
   "accelerate>=0.30",
   "autoawq>=0.2.5",
 ]
+judge = [
+  "anthropic>=0.30",
+]
 dev = [
   "pytest>=8.0",
   "pytest-cov>=5.0",
@@ -43,6 +46,7 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra --strict-markers"
+pythonpath = ["src"]
 
 [tool.ruff]
 line-length = 100

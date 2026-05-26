@@ -52,9 +52,16 @@ def _execute(
     for repeat in range(config.controls.repeats):
         env = capture_env()
         runner = runner_cls(config)
+        memory: MemorySummary | None = None
         try:
             runner.warmup(warmup_prompts)
             output = runner.run(measure_prompts)
+            try:
+                from .metrics.memory import capture_memory
+
+                memory = capture_memory()
+            except ImportError:
+                memory = None
         finally:
             runner.shutdown()
 
@@ -62,7 +69,6 @@ def _execute(
         throughput = summarize_throughput(output.measurements, output.wall_time_s)
         hardware = hardware_override or output.hardware
 
-        memory: MemorySummary | None = None
         cost: float | None = None
         try:
             cost = cost_per_million_tokens(

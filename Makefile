@@ -1,14 +1,21 @@
-.PHONY: help install install-gpu test lint smoke sweep analyze clean
+.PHONY: help install install-gpu install-judge ci test lint smoke sweep analyze clean
 
 PY ?= python
 RESULTS ?= results/runs
+
+# Belt-and-suspenders: also include src/ on PYTHONPATH so the harness works
+# even when the editable install is broken (some sandboxed envs strip .pth
+# processing).
+export PYTHONPATH := src:$(PYTHONPATH)
 
 help:
 	@echo "Targets:"
 	@echo "  install       pip install harness deps (CPU-only, no torch/vllm)"
 	@echo "  install-gpu   pip install GPU deps on top (torch, vllm, autoawq)"
+	@echo "  install-judge pip install the LLM-as-judge deps (anthropic)"
 	@echo "  test          run unit tests on the harness"
 	@echo "  lint          ruff check"
+	@echo "  ci            lint + tests + smoke (what GH Actions runs)"
 	@echo "  smoke         run the single-config smoke test (MockRunner, no GPU)"
 	@echo "  sweep         run the full sweep matrix (needs GPU)"
 	@echo "  analyze       aggregate results/runs/* into results/summary"
@@ -19,6 +26,11 @@ install:
 
 install-gpu:
 	$(PY) -m pip install -e ".[gpu]"
+
+install-judge:
+	$(PY) -m pip install -e ".[judge]"
+
+ci: lint test smoke
 
 test:
 	$(PY) -m pytest

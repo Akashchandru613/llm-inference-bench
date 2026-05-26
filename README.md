@@ -1,5 +1,7 @@
 # llm-inference-bench
 
+[![tests](https://github.com/Akashchandru6/llm-inference-bench/actions/workflows/test.yml/badge.svg)](https://github.com/Akashchandru6/llm-inference-bench/actions/workflows/test.yml)
+
 A reproducible benchmark suite for open-weight LLM inference, comparing the
 optimizations that matter in production: **quantization × speculative decoding
 × batch size × context length**, with rigorous methodology, statistical
@@ -82,15 +84,27 @@ See [methodology.md](methodology.md) for: warmup protocol, repeat counts and
 seed handling, prompt sampling, statistical tests, GPU-memory headroom rules,
 and an honest list of limitations of the current sweep.
 
+## Publishing the repo
+
+The repo is local-only after `git init`. To push to GitHub:
+
+```bash
+gh repo create llm-inference-bench --public --source=. --remote=origin --push
+```
+
+The CI badge at the top of this README assumes the repo lives at
+`Akashchandru6/llm-inference-bench` — update the badge URL if you fork under a
+different name.
+
 ## Status
 
-This repo currently ships the harness skeleton. The next milestones are:
-
 - [x] Config schema, metrics math, stats, prompt sampling, MockRunner, CLI
-- [ ] vLLM runner: model loading + async streaming (deferred until GPU host)
-- [ ] First full sweep on Kaggle T4
-- [ ] Writeup + headline chart
-- [ ] LLM-as-judge quality check
+- [x] vLLM async runner: AsyncLLMEngine, worker-pool with bounded concurrency,
+      streaming TTFT capture, peak-memory accounting
+- [x] LLM-as-judge orchestrator with Anthropic backend + prompt caching
+- [x] GitHub Actions CI: ruff + pytest + smoke run on 3.10/3.11/3.12
+- [ ] **First full sweep on Kaggle T4** ← next milestone (needs GPU)
+- [ ] Writeup + headline chart populated into the table above
 
 ## License
 
