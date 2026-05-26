@@ -31,15 +31,17 @@ def test_mock_runner_is_deterministic_for_same_seed():
 
 
 def test_mock_runner_reflects_spec_decoding_at_low_batch():
+    from llm_bench.config import RunConfig
+
     cfg = load_run_config(REPO / "configs" / "smoke.yaml")
     baseline = MockRunner(cfg).run(_prompts(cfg.controls.num_prompts))
-    spec_cfg = cfg.model_copy(update={
-        "speculative_decoding": {
-            "enabled": True,
-            "draft_model": "Qwen/Qwen2.5-0.5B-Instruct",
-            "num_speculative_tokens": 5,
-        }
-    })
+    payload = cfg.model_dump()
+    payload["speculative_decoding"] = {
+        "enabled": True,
+        "draft_model": "Qwen/Qwen2.5-0.5B-Instruct",
+        "num_speculative_tokens": 5,
+    }
+    spec_cfg = RunConfig.model_validate(payload)
     spec = MockRunner(spec_cfg).run(_prompts(cfg.controls.num_prompts))
     # Synthetic model: spec decoding lowers per-token cost at batch=1.
     assert spec.wall_time_s < baseline.wall_time_s

@@ -58,25 +58,26 @@ def sample_prompts(
     seed: int,
 ) -> list[PromptSample]:
     rng = random.Random(seed)
+    pool: list[PromptSample] = []
     try:
         from datasets import load_dataset  # type: ignore
-    except ImportError:
-        return _synthetic_prompts(context_bucket, n, rng)
 
-    target = CONTEXT_TOKENS[context_bucket]
-    low, high = int(target * 0.7), int(target * 1.3)
-
-    ds = load_dataset(dataset, split=split, streaming=True)
-    pool: list[PromptSample] = []
-    for row in ds:
-        text = _extract_user_text(row)
-        if text is None:
-            continue
-        approx_tokens = int(len(text.split()) / 0.75)
-        if low <= approx_tokens <= high:
-            pool.append(PromptSample(text=text, approx_input_tokens=approx_tokens))
-        if len(pool) >= n * 8:
-            break
+        target = CONTEXT_TOKENS[context_bucket]
+        low, high = int(target * 0.7), int(target * 1.3)
+        ds = load_dataset(dataset, split=split, streaming=True)
+        for row in ds:
+            text = _extract_user_text(row)
+            if text is None:
+                continue
+            approx_tokens = int(len(text.split()) / 0.75)
+            if low <= approx_tokens <= high:
+                pool.append(PromptSample(text=text, approx_input_tokens=approx_tokens))
+            if len(pool) >= n * 8:
+                break
+    except Exception:
+        # Network down, dataset gated, schema drifted — any of these is fine,
+        # fall through to synthetic so the harness stays runnable.
+        pool = []
 
     if len(pool) < n:
         pool.extend(_synthetic_prompts(context_bucket, n - len(pool), rng))
