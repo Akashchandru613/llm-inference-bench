@@ -1,0 +1,56 @@
+[
+  {
+    "cost_per_M_tokens_usd": 3.637091097869645,
+    "fingerprint": "0cf30dd995320584",
+    "n_repeats": 1,
+    "name": "mistral7b-awq-bs4-medium",
+    "system_tps_mean": 26.73076357069204,
+    "system_tps_stdev": 0.0,
+    "ttft_p50_ms_mean": 6058.906610999657
+  },
+  {
+    "cost_per_M_tokens_usd": 0.7300866511002565,
+    "fingerprint": "4afcfa4ea78885d2",
+    "n_repeats": 1,
+    "name": "mistral7b-awq-bs16-short",
+    "system_tps_mean": 133.16531959008728,
+    "system_tps_stdev": 0.0,
+    "ttft_p50_ms_mean": 3721.477348999997
+  },
+  {
+    "cost_per_M_tokens_usd": 4.1466048636523425,
+    "fingerprint": "6ea9ff4adc972083",
+    "n_repeats": 1,
+    "name": "mistral7b-awq-bs1-short",
+    "system_tps_mean": 23.44622297495416,
+    "system_tps_stdev": 0.0,
+    "ttft_p50_ms_mean": 546.7279250001411
+  },
+  {
+    "cost_per_M_tokens_usd": 6.320703950206148,
+    "fingerprint": "a04ddb8d1b30f960",
+    "n_repeats": 1,
+    "name": "mistral7b-awq-bs1-medium",
+    "system_tps_mean": 15.381549743213547,
+    "system_tps_stdev": 0.0,
+    "ttft_p50_ms_mean": 2960.73697599968
+  },
+  {
+    "cost_per_M_tokens_usd": 16.000803360671647,
+    "fingerprint": "d2937f9191b0e8a5",
+    "n_repeats": 1,
+    "name": "mistral7b-awq-bs1-long",
+    "system_tps_mean": 6.076083808465803,
+    "system_tps_stdev": 0.0,
+    "ttft_p50_ms_mean": 14575.528843500251
+  },
+  {
+    "cost_per_M_tokens_usd": 1.3982994736849026,
+    "fingerprint": "fe524727dce0c810",
+    "n_repeats": 1,
+    "name": "mistral7b-awq-bs4-short",
+    "system_tps_mean": 69.52889853131032,
+    "system_tps_stdev": 0.0,
+    "ttft_p50_ms_mean": 1598.4834139999293
+  }
+]

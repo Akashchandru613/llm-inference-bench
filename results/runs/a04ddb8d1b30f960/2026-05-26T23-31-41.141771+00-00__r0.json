@@ -1,0 +1,320 @@
+{
+  "config": {
+    "batch_size": 1,
+    "controls": {
+      "num_prompts": 30,
+      "num_warmup": 4,
+      "repeats": 1,
+      "seed": 0
+    },
+    "model": {
+      "name": "TheBloke/Mistral-7B-Instruct-v0.2-AWQ",
+      "revision": null,
+      "trust_remote_code": false
+    },
+    "name": "mistral7b-awq-bs1-medium",
+    "prompts": {
+      "context_bucket": "medium",
+      "dataset": "anon8231489123/ShareGPT_Vicuna_unfiltered",
+      "split": "train"
+    },
+    "quantization": "awq",
+    "sampling": {
+      "max_new_tokens": 128,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "speculative_decoding": {
+      "draft_model": null,
+      "enabled": false,
+      "num_speculative_tokens": 5
+    }
+  },
+  "config_fingerprint": "a04ddb8d1b30f960",
+  "cost_per_million_output_tokens_usd": 6.320703950206148,
+  "env": {
+    "cuda_version": "12.1",
+    "env_vars": {},
+    "git_dirty": true,
+    "git_sha": "8d9f3de624453df7a936ebb726bae46df569e31d",
+    "gpu_driver": "580.105.08",
+    "gpu_name": "Tesla T4",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+    "python_version": "3.12.13",
+    "timestamp_utc": "2026-05-26T23:31:41.141771+00:00",
+    "torch_version": "2.4.0+cu121",
+    "transformers_version": "4.44.2",
+    "vllm_version": "0.5.5"
+  },
+  "error": null,
+  "latency": {
+    "n": 30,
+    "request_latency_p50_ms": 8322.955417999765,
+    "request_latency_p95_ms": 8525.65091534966,
+    "request_latency_p99_ms": 8552.503439910506,
+    "tpot_p50_ms": 42.24211420866388,
+    "tpot_p95_ms": 43.38569009094563,
+    "tpot_p99_ms": 43.53307970976692,
+    "ttft_p50_ms": 2960.73697599968,
+    "ttft_p95_ms": 3015.7249141995635,
+    "ttft_p99_ms": 3023.9665739301017
+  },
+  "memory": {
+    "device_total_gib": 14.56317138671875,
+    "peak_allocated_gib": 12.627397060394287,
+    "peak_reserved_gib": 13.560546875
+  },
+  "per_request": [
+    {
+      "end_time": 6561.726096747,
+      "first_token_time": 6556.205643505,
+      "input_tokens": 2973,
+      "output_tokens": 128,
+      "request_id": 0,
+      "submit_time": 6553.190230113
+    },
+    {
+      "end_time": 6570.28542342,
+      "first_token_time": 6564.753353444,
+      "input_tokens": 2967,
+      "output_tokens": 128,
+      "request_id": 1,
+      "submit_time": 6561.726124665
+    },
+    {
+      "end_time": 6578.798625011,
+      "first_token_time": 6573.30143977,
+      "input_tokens": 2965,
+      "output_tokens": 128,
+      "request_id": 2,
+      "submit_time": 6570.285459974
+    },
+    {
+      "end_time": 6587.216143331,
+      "first_token_time": 6581.796311418,
+      "input_tokens": 2984,
+      "output_tokens": 128,
+      "request_id": 3,
+      "submit_time": 6578.798649744
+    },
+    {
+      "end_time": 6595.538283291,
+      "first_token_time": 6590.172582824,
+      "input_tokens": 2967,
+      "output_tokens": 128,
+      "request_id": 4,
+      "submit_time": 6587.216167339
+    },
+    {
+      "end_time": 6603.779459429,
+      "first_token_time": 6598.481741491,
+      "input_tokens": 2972,
+      "output_tokens": 128,
+      "request_id": 5,
+      "submit_time": 6595.538306543
+    },
+    {
+      "end_time": 6611.951480589,
+      "first_token_time": 6606.697835884,
+      "input_tokens": 2974,
+      "output_tokens": 128,
+      "request_id": 6,
+      "submit_time": 6603.77948228
+    },
+    {
+      "end_time": 6620.125384158,
+      "first_token_time": 6614.865181897,
+      "input_tokens": 2948,
+      "output_tokens": 128,
+      "request_id": 7,
+      "submit_time": 6611.951505373
+    },
+    {
+      "end_time": 6628.366376684,
+      "first_token_time": 6623.061779694,
+      "input_tokens": 2965,
+      "output_tokens": 128,
+      "request_id": 8,
+      "submit_time": 6620.125412095
+    },
+    {
+      "end_time": 6636.644484357,
+      "first_token_time": 6631.327875389,
+      "input_tokens": 2988,
+      "output_tokens": 128,
+      "request_id": 9,
+      "submit_time": 6628.366399779
+    },
+    {
+      "end_time": 6644.982483628,
+      "first_token_time": 6639.613615631,
+      "input_tokens": 2981,
+      "output_tokens": 128,
+      "request_id": 10,
+      "submit_time": 6636.644510931
+    },
+    {
+      "end_time": 6653.350338535,
+      "first_token_time": 6647.942368768,
+      "input_tokens": 2969,
+      "output_tokens": 128,
+      "request_id": 11,
+      "submit_time": 6644.982508
+    },
+    {
+      "end_time": 6661.722961034,
+      "first_token_time": 6656.325456126,
+      "input_tokens": 2970,
+      "output_tokens": 128,
+      "request_id": 12,
+      "submit_time": 6653.35036312
+    },
+    {
+      "end_time": 6670.066407016,
+      "first_token_time": 6664.684805927,
+      "input_tokens": 2968,
+      "output_tokens": 128,
+      "request_id": 13,
+      "submit_time": 6661.722987876
+    },
+    {
+      "end_time": 6678.429140378,
+      "first_token_time": 6673.037203502,
+      "input_tokens": 2969,
+      "output_tokens": 128,
+      "request_id": 14,
+      "submit_time": 6670.06643672
+    },
+    {
+      "end_time": 6686.791321217,
+      "first_token_time": 6681.402802976,
+      "input_tokens": 2982,
+      "output_tokens": 128,
+      "request_id": 15,
+      "submit_time": 6678.429168598
+    },
+    {
+      "end_time": 6695.169939031,
+      "first_token_time": 6689.766205857,
+      "input_tokens": 2975,
+      "output_tokens": 128,
+      "request_id": 16,
+      "submit_time": 6686.791345391
+    },
+    {
+      "end_time": 6703.487431493,
+      "first_token_time": 6698.14247519,
+      "input_tokens": 2962,
+      "output_tokens": 128,
+      "request_id": 17,
+      "submit_time": 6695.169962789
+    },
+    {
+      "end_time": 6711.811251577,
+      "first_token_time": 6706.447455035,
+      "input_tokens": 2968,
+      "output_tokens": 128,
+      "request_id": 18,
+      "submit_time": 6703.487456693
+    },
+    {
+      "end_time": 6720.193311372,
+      "first_token_time": 6714.769153124,
+      "input_tokens": 2948,
+      "output_tokens": 128,
+      "request_id": 19,
+      "submit_time": 6711.811278267
+    },
+    {
+      "end_time": 6728.526575035,
+      "first_token_time": 6723.147969422,
+      "input_tokens": 2947,
+      "output_tokens": 128,
+      "request_id": 20,
+      "submit_time": 6720.193335666
+    },
+    {
+      "end_time": 6736.88969646,
+      "first_token_time": 6731.520732017,
+      "input_tokens": 2989,
+      "output_tokens": 128,
+      "request_id": 21,
+      "submit_time": 6728.526598975
+    },
+    {
+      "end_time": 6745.199171522,
+      "first_token_time": 6739.853647476,
+      "input_tokens": 2983,
+      "output_tokens": 128,
+      "request_id": 22,
+      "submit_time": 6736.889721376
+    },
+    {
+      "end_time": 6753.410155688,
+      "first_token_time": 6748.157302585,
+      "input_tokens": 2981,
+      "output_tokens": 128,
+      "request_id": 23,
+      "submit_time": 6745.199194264
+    },
+    {
+      "end_time": 6761.638463832,
+      "first_token_time": 6756.355888659,
+      "input_tokens": 2963,
+      "output_tokens": 128,
+      "request_id": 24,
+      "submit_time": 6753.410182396
+    },
+    {
+      "end_time": 6769.853862187,
+      "first_token_time": 6764.590640943,
+      "input_tokens": 2982,
+      "output_tokens": 128,
+      "request_id": 25,
+      "submit_time": 6761.638489516
+    },
+    {
+      "end_time": 6778.059341582,
+      "first_token_time": 6772.800798016,
+      "input_tokens": 2978,
+      "output_tokens": 128,
+      "request_id": 26,
+      "submit_time": 6769.853887748
+    },
+    {
+      "end_time": 6786.33983709,
+      "first_token_time": 6781.026459554,
+      "input_tokens": 2992,
+      "output_tokens": 128,
+      "request_id": 27,
+      "submit_time": 6778.059366801
+    },
+    {
+      "end_time": 6794.574230374,
+      "first_token_time": 6789.295454629,
+      "input_tokens": 2996,
+      "output_tokens": 128,
+      "request_id": 28,
+      "submit_time": 6786.339863844
+    },
+    {
+      "end_time": 6802.839846579,
+      "first_token_time": 6797.517180279,
+      "input_tokens": 2974,
+      "output_tokens": 128,
+      "request_id": 29,
+      "submit_time": 6794.574257926
+    }
+  ],
+  "prompts_fingerprint": "c534ea6f802e95ef",
+  "repeat_index": 0,
+  "runner": "vllm",
+  "status": "ok",
+  "throughput": {
+    "per_request_output_tps_mean": 15.383685740054888,
+    "system_output_tps": 15.381549743213547,
+    "total_input_tokens": 89180,
+    "total_output_tokens": 3840,
+    "wall_time_s": 249.6497468789994
+  }
+}
