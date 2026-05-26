@@ -2,7 +2,9 @@
 # Pin torch to whatever vLLM's release supports on T4 (sm_75).
 torch>=2.3,<2.5
 vllm>=0.5.0,<0.6
-transformers>=4.41
+# transformers 4.45+ rewrote rope_scaling to use "rope_type" key; vllm 0.5.x
+# still expects the old "type"+"factor" format and asserts on load otherwise.
+transformers>=4.41,<4.45
 accelerate>=0.30
 # AWQ kernels on T4: works for sm_75; GPTQ via auto-gptq if added later.
 autoawq>=0.2.5
