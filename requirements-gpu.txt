@@ -6,3 +6,6 @@ transformers>=4.41
 accelerate>=0.30
 # AWQ kernels on T4: works for sm_75; GPTQ via auto-gptq if added later.
 autoawq>=0.2.5
+# Transitive vLLM dep (via outlines) that pip's resolver sometimes misses.
+# Without it, vLLM imports fail with: ModuleNotFoundError: No module named 'pyairports'
+pyairports>=2.1.1
