@@ -1,73 +1,69 @@
-# Illustrative sweep: one slice of the full matrix.
-# Full matrix (axes): {model} x {quantization} x {speculative_decoding} x {batch_size} x {context_bucket}.
-# Free-tier T4 (16GB) realistically supports: AWQ at most batch sizes, FP16 7B only at small batch/short context.
-# See methodology.md for the hardware-aware sweep plan.
-name: sweep-v1
+# v1 sweep — Mistral-7B-Instruct-v0.2-AWQ on T4 (sm_75) via vLLM 0.5.5.
+#
+# Why Mistral, not Qwen2.5: vLLM 0.5.x can't parse Qwen2.5's modern RoPE
+# scaling config. Mistral-v0.2 uses classic RoPE and Just Works.
+#
+# Why AWQ across the board, no FP16: Mistral-7B FP16 is ~14 GB of weights;
+# a T4 has 16 GB. After KV cache + CUDA graphs, FP16 OOMs at any batch > 1.
+# AWQ 4-bit drops weights to ~4 GB, leaving room for batching and longer context.
+#
+# Why no speculative decoding: spec decoding in vLLM 0.5.x requires a
+# vocab-compatible draft model. No official tiny Mistral exists, and ngram
+# speculative decoding needs separate plumbing. Left for v2.
+#
+# The matrix below covers two interesting axes:
+#   - batch size at fixed (short) context: bs1, bs4, bs16
+#   - context length at fixed (bs1) batch:  short, medium, long
+# with bs4-medium as the cross-axis check.
+name: sweep-v1-mistral
 runs:
-  # Quantization sweep at batch=1, short context, no spec.
-  - name: qwen7b-fp16-bs1-short
-    model: { name: Qwen/Qwen2.5-7B-Instruct }
-    quantization: fp16
-    batch_size: 1
-    prompts: { dataset: anon8231489123/ShareGPT_Vicuna_unfiltered, context_bucket: short }
-    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
-
-  - name: qwen7b-awq-bs1-short
-    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+  # Batch-size sweep at short context.
+  - name: mistral7b-awq-bs1-short
+    model: { name: TheBloke/Mistral-7B-Instruct-v0.2-AWQ }
     quantization: awq
     batch_size: 1
+    sampling: { temperature: 0.0, max_new_tokens: 128 }
     prompts: { context_bucket: short }
-    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+    controls: { num_prompts: 50, num_warmup: 4, seed: 0, repeats: 1 }
 
-  # Batch-size sweep at AWQ, short context, no spec.
-  - name: qwen7b-awq-bs4-short
-    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+  - name: mistral7b-awq-bs4-short
+    model: { name: TheBloke/Mistral-7B-Instruct-v0.2-AWQ }
     quantization: awq
     batch_size: 4
+    sampling: { temperature: 0.0, max_new_tokens: 128 }
     prompts: { context_bucket: short }
-    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+    controls: { num_prompts: 50, num_warmup: 4, seed: 0, repeats: 1 }
 
-  - name: qwen7b-awq-bs16-short
-    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+  - name: mistral7b-awq-bs16-short
+    model: { name: TheBloke/Mistral-7B-Instruct-v0.2-AWQ }
     quantization: awq
     batch_size: 16
+    sampling: { temperature: 0.0, max_new_tokens: 128 }
     prompts: { context_bucket: short }
-    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+    controls: { num_prompts: 50, num_warmup: 4, seed: 0, repeats: 1 }
 
-  # Speculative decoding cross batch — the headline experiment.
-  - name: qwen7b-awq-bs1-short-spec
-    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+  # Context-length sweep at bs1.
+  - name: mistral7b-awq-bs1-medium
+    model: { name: TheBloke/Mistral-7B-Instruct-v0.2-AWQ }
     quantization: awq
-    speculative_decoding:
-      enabled: true
-      draft_model: Qwen/Qwen2.5-0.5B-Instruct
-      num_speculative_tokens: 5
     batch_size: 1
-    prompts: { context_bucket: short }
-    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
-
-  - name: qwen7b-awq-bs16-short-spec
-    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
-    quantization: awq
-    speculative_decoding:
-      enabled: true
-      draft_model: Qwen/Qwen2.5-0.5B-Instruct
-      num_speculative_tokens: 5
-    batch_size: 16
-    prompts: { context_bucket: short }
-    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
-
-  # Context-length sweep at AWQ, batch=4, no spec.
-  - name: qwen7b-awq-bs4-medium
-    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
-    quantization: awq
-    batch_size: 4
+    sampling: { temperature: 0.0, max_new_tokens: 128 }
     prompts: { context_bucket: medium }
-    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+    controls: { num_prompts: 30, num_warmup: 4, seed: 0, repeats: 1 }
 
-  - name: qwen7b-awq-bs4-long
-    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+  - name: mistral7b-awq-bs1-long
+    model: { name: TheBloke/Mistral-7B-Instruct-v0.2-AWQ }
+    quantization: awq
+    batch_size: 1
+    sampling: { temperature: 0.0, max_new_tokens: 128 }
+    prompts: { context_bucket: long }
+    controls: { num_prompts: 20, num_warmup: 4, seed: 0, repeats: 1 }
+
+  # Cross-axis check: bs4 at medium.
+  - name: mistral7b-awq-bs4-medium
+    model: { name: TheBloke/Mistral-7B-Instruct-v0.2-AWQ }
     quantization: awq
     batch_size: 4
-    prompts: { context_bucket: long }
-    controls: { num_prompts: 50, num_warmup: 4, seed: 0, repeats: 3 }
+    sampling: { temperature: 0.0, max_new_tokens: 128 }
+    prompts: { context_bucket: medium }
+    controls: { num_prompts: 30, num_warmup: 4, seed: 0, repeats: 1 }
