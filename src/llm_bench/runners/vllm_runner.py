@@ -40,7 +40,11 @@ class VLLMRunner:
             "model": c.model.name,
             "dtype": "auto",
             "seed": c.controls.seed,
-            "max_model_len": c.context_tokens + c.sampling.max_new_tokens,
+            # Headroom: the prompt sampler's word-count heuristic underestimates
+            # real token count by 30-60% for chat-style text; give vLLM 2x slack
+            # so prompts that the sampler bucketed as "short" but tokenize to ~1.5x
+            # don't get rejected at the scheduler.
+            "max_model_len": int(c.context_tokens * 2.5) + c.sampling.max_new_tokens + 64,
             "max_num_seqs": c.batch_size,
             "trust_remote_code": c.model.trust_remote_code,
             "enforce_eager": False,
