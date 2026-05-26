@@ -1,6 +1,6 @@
 # llm-inference-bench
 
-[![tests](https://github.com/Akashchandru6/llm-inference-bench/actions/workflows/test.yml/badge.svg)](https://github.com/Akashchandru6/llm-inference-bench/actions/workflows/test.yml)
+[![tests](https://github.com/Akashchandru613/llm-inference-bench/actions/workflows/test.yml/badge.svg)](https://github.com/Akashchandru613/llm-inference-bench/actions/workflows/test.yml)
 
 A reproducible benchmark suite for open-weight LLM inference, comparing the
 optimizations that matter in production: **quantization × speculative decoding
@@ -93,7 +93,7 @@ gh repo create llm-inference-bench --public --source=. --remote=origin --push
 ```
 
 The CI badge at the top of this README assumes the repo lives at
-`Akashchandru6/llm-inference-bench` — update the badge URL if you fork under a
+`Akashchandru613/llm-inference-bench` — update the badge URL if you fork under a
 different name.
 
 ## Status
