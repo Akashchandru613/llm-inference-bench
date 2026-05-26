@@ -1,0 +1,73 @@
+# Illustrative sweep: one slice of the full matrix.
+# Full matrix (axes): {model} x {quantization} x {speculative_decoding} x {batch_size} x {context_bucket}.
+# Free-tier T4 (16GB) realistically supports: AWQ at most batch sizes, FP16 7B only at small batch/short context.
+# See methodology.md for the hardware-aware sweep plan.
+name: sweep-v1
+runs:
+  # Quantization sweep at batch=1, short context, no spec.
+  - name: qwen7b-fp16-bs1-short
+    model: { name: Qwen/Qwen2.5-7B-Instruct }
+    quantization: fp16
+    batch_size: 1
+    prompts: { dataset: anon8231489123/ShareGPT_Vicuna_unfiltered, context_bucket: short }
+    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+
+  - name: qwen7b-awq-bs1-short
+    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+    quantization: awq
+    batch_size: 1
+    prompts: { context_bucket: short }
+    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+
+  # Batch-size sweep at AWQ, short context, no spec.
+  - name: qwen7b-awq-bs4-short
+    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+    quantization: awq
+    batch_size: 4
+    prompts: { context_bucket: short }
+    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+
+  - name: qwen7b-awq-bs16-short
+    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+    quantization: awq
+    batch_size: 16
+    prompts: { context_bucket: short }
+    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+
+  # Speculative decoding cross batch — the headline experiment.
+  - name: qwen7b-awq-bs1-short-spec
+    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+    quantization: awq
+    speculative_decoding:
+      enabled: true
+      draft_model: Qwen/Qwen2.5-0.5B-Instruct
+      num_speculative_tokens: 5
+    batch_size: 1
+    prompts: { context_bucket: short }
+    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+
+  - name: qwen7b-awq-bs16-short-spec
+    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+    quantization: awq
+    speculative_decoding:
+      enabled: true
+      draft_model: Qwen/Qwen2.5-0.5B-Instruct
+      num_speculative_tokens: 5
+    batch_size: 16
+    prompts: { context_bucket: short }
+    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+
+  # Context-length sweep at AWQ, batch=4, no spec.
+  - name: qwen7b-awq-bs4-medium
+    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+    quantization: awq
+    batch_size: 4
+    prompts: { context_bucket: medium }
+    controls: { num_prompts: 100, num_warmup: 8, seed: 0, repeats: 3 }
+
+  - name: qwen7b-awq-bs4-long
+    model: { name: Qwen/Qwen2.5-7B-Instruct-AWQ }
+    quantization: awq
+    batch_size: 4
+    prompts: { context_bucket: long }
+    controls: { num_prompts: 50, num_warmup: 4, seed: 0, repeats: 3 }

@@ -1,0 +1,18 @@
+name: smoke-qwen7b-fp16-bs1-short
+model:
+  name: Qwen/Qwen2.5-7B-Instruct
+quantization: fp16
+speculative_decoding:
+  enabled: false
+batch_size: 1
+sampling:
+  temperature: 0.0
+  max_new_tokens: 128
+prompts:
+  dataset: anon8231489123/ShareGPT_Vicuna_unfiltered
+  context_bucket: short
+controls:
+  num_prompts: 16
+  num_warmup: 4
+  seed: 0
+  repeats: 1

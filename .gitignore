@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+
+# Results: keep structure, ignore raw data (commit summaries explicitly)
+results/runs/
+results/cache/
+*.parquet
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Local
+.env
+*.local.yaml
