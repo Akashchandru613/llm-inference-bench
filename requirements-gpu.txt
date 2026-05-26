@@ -6,6 +6,8 @@ transformers>=4.41
 accelerate>=0.30
 # AWQ kernels on T4: works for sm_75; GPTQ via auto-gptq if added later.
 autoawq>=0.2.5
-# Transitive vLLM dep (via outlines) that pip's resolver sometimes misses.
-# Without it, vLLM imports fail with: ModuleNotFoundError: No module named 'pyairports'
-pyairports>=2.1.1
+# Transitive vLLM dep (via outlines) — pinned to 2.1.1 because PyPI has a
+# squatter "pyairports 0.0.1" stub (Author: "John Doe") that pip's resolver
+# will happily pick up and that contains no actual module. Without this
+# explicit pin: ModuleNotFoundError: No module named 'pyairports' at vLLM import.
+pyairports==2.1.1
