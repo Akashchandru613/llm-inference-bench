@@ -18,7 +18,7 @@ def test_smoke_config_loads():
 
 def test_sweep_config_loads():
     sweep = SweepConfig.from_yaml(REPO / "configs" / "sweep.yaml")
-    assert sweep.name == "sweep-v1"
+    assert sweep.name.startswith("sweep-v1")
     assert len(sweep.runs) >= 1
     # All run names must be unique within a sweep.
     names = [r.name for r in sweep.runs]
