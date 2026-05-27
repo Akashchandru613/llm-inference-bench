@@ -22,6 +22,10 @@ column uses T4 list price of $0.35/hr.
 | AWQ, batch=4, 2,048-tok        |         26.7 |         6,059 |        $3.64 |
 | AWQ, batch=1, 8,192-tok        |          6.1 |        14,576 |       $16.00 |
 
+![Throughput vs batch size on a T4](docs/charts/throughput_vs_batch.png)
+
+![TTFT vs context length at batch=1 and batch=4](docs/charts/ttft_vs_context.png)
+
 ### Three findings
 
 1. **Batching is the dominant lever for cost/throughput on a T4.** Going from

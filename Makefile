@@ -19,6 +19,7 @@ help:
 	@echo "  smoke         run the single-config smoke test (MockRunner, no GPU)"
 	@echo "  sweep         run the full sweep matrix (needs GPU)"
 	@echo "  analyze       aggregate results/runs/* into results/summary"
+	@echo "  charts        generate matplotlib charts under docs/charts/"
 	@echo "  clean         remove caches and build artifacts"
 
 install:
@@ -46,6 +47,9 @@ sweep:
 
 analyze:
 	$(PY) -m llm_bench analyze --input $(RESULTS) --output results/summary
+
+charts:
+	$(PY) scripts/make_charts.py
 
 clean:
 	rm -rf .pytest_cache .ruff_cache .mypy_cache build dist *.egg-info

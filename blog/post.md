@@ -17,6 +17,8 @@ The headline:
 
 Cost column uses T4 list price ($0.35/hr) — Kaggle is free but the per-token figure is meaningful as a cloud-equivalent.
 
+![Throughput vs batch size on a T4](../docs/charts/throughput_vs_batch.png)
+
 Three findings I think are worth your time.
 
 ## 1. Batching is the dominant cost lever
@@ -53,6 +55,8 @@ The result I didn't expect:
 | medium (2,048) |     2,961 ms  |       6,059 ms |  2.0× |
 
 Going from short to medium context multiplies TTFT by **5.4× at bs=1** but only **3.8× at bs=4**. Naïve intuition says prefill cost is linear in context length and should add a constant per-token cost regardless of batch size. The data says otherwise: vLLM's batched prefill is doing real work to amortize FLOPs across the batch.
+
+![TTFT vs context length at batch=1 vs batch=4](../docs/charts/ttft_vs_context.png)
 
 Translated to operational advice: as your average context length grows, **batching becomes more valuable, not less**. The instinct to drop batch size when contexts get long (to fit in memory) trades away exactly the lever that fights context-induced TTFT inflation.
 
